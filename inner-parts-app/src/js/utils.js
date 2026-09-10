@@ -77,7 +77,14 @@ let suggestionsPopulated = false;
 
 export function attachPartSuggestions(inputEl) {
   if (!inputEl) return;
-  
+
+  if (NEEDS_FALLBACK_SUGGESTIONS) {
+    if (!FALLBACK_CONTROLLERS.has(inputEl)) {
+      FALLBACK_CONTROLLERS.set(inputEl, createFallbackSuggestions(inputEl));
+    }
+    return;
+  }
+
   let list = document.getElementById(PART_SUGGESTION_ID);
   if (!list) {
     list = document.createElement('datalist');
